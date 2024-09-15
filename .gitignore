@@ -1,0 +1,12 @@
+# build output
+centric
+static
+
+# delve
+__debug_bin*
+
+# sqlc
+*.sqlite
+internal/database/db.go
+internal/database/models.go
+internal/database/*.sql.go

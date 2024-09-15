@@ -1,0 +1,28 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch Api",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}",
+            "args": ["-debug"]
+        },
+        {
+            "name": "Launch Website",
+            "type": "node",
+            "request": "launch",
+            "runtimeExecutable": "pnpm",
+            "runtimeArgs": ["run", "dev", "--host", "0.0.0.0"],
+            "cwd": "${workspaceFolder}/website"
+        }   
+    ],
+    "compounds": [
+        {
+            "name": "Development",
+            "configurations": ["Launch Api", "Launch Website"],
+            "stopAll": true
+        }
+    ]
+}

@@ -1,0 +1,16 @@
+version: 2
+updates:
+ - package-ecosystem: "devcontainers"
+   directory: "/"
+   schedule:
+     interval: weekly
+
+ - package-ecosystem: "gomod"
+   directory: "/"
+   schedule:
+     interval: weekly
+
+ - package-ecosystem: "pnpm"
+   directory: "/website"
+   schedule:
+    interval: weekly
