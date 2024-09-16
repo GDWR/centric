@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import EnvironmentSwitcher from '@/components/EnvironmentSwitcher.vue'
 import Nav, { type LinkProp } from '@/components/Nav.vue'
 import { cn } from '@/lib/utils'
 import { Separator } from '@/components/ui/separator'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable'
+import { useContainersStore } from '@/stores/containers'
 
+const containersStore = useContainersStore()
 const isCollapsed = ref(false)
 
 const environmentLinks: LinkProp[] = [
@@ -18,6 +20,7 @@ const environmentLinks: LinkProp[] = [
   {
     title: 'Containers',
     path: '/containers',
+    label: computed(() => containersStore.count),
     icon: 'lucide:container',
   },
   {

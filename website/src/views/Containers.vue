@@ -10,11 +10,9 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { useEnvironmentStore } from '@/stores/environment'
+import { useContainersStore } from '@/stores/containers'
 
-const { selectedEnvironmentId } = useEnvironmentStore()
-const containers = await fetch(`/api/v1/environments/${selectedEnvironmentId}/containers`)
-  .then((res) => res.json());
+const containersStore = useContainersStore()
 </script>
 
 <template>
@@ -34,7 +32,7 @@ const containers = await fetch(`/api/v1/environments/${selectedEnvironmentId}/co
         </TableRow>
       </TableHeader>
       <TableBody>
-        <TableRow v-for="container in containers" :key="container.Id">
+        <TableRow v-for="container in containersStore.containers" :key="container.Id">
           <TableCell class="font-medium">
             {{ container.Names[0].replace('/', '') }}
           </TableCell>
