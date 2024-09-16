@@ -5,6 +5,7 @@ import (
 
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/container"
+	"github.com/docker/docker/api/types/image"
 	"github.com/docker/docker/api/types/system"
 	"github.com/docker/docker/client"
 )
@@ -29,6 +30,17 @@ func (d *DockerService) GetContainers(ctx context.Context, uri string) ([]types.
 	}
 
 	return cli.ContainerList(ctx, container.ListOptions{
+		All: true,
+	})
+}
+
+func (d *DockerService) GetImages(ctx context.Context, uri string) ([]image.Summary, error) {
+	cli, err := client.NewClientWithOpts(client.WithHost(uri), client.WithAPIVersionNegotiation())
+	if err != nil {
+		return nil, err
+	}
+
+	return cli.ImageList(ctx, image.ListOptions{
 		All: true,
 	})
 }
