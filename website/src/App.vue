@@ -7,8 +7,10 @@ import { Separator } from '@/components/ui/separator'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable'
 import { useContainersStore } from '@/stores/containers'
+import { useImagesStore } from '@/stores/images'
 
 const containersStore = useContainersStore()
+const imagesStore = useImagesStore()
 const isCollapsed = ref(false)
 
 const environmentLinks: LinkProp[] = [
@@ -26,6 +28,7 @@ const environmentLinks: LinkProp[] = [
   {
     title: 'Images',
     path: '/images',
+    label: computed(() => imagesStore.count <= 99 ? imagesStore.count : '99+'),
     icon: 'lucide:file-image',
   },
   {

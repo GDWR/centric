@@ -24,7 +24,7 @@ const containersStore = useContainersStore()
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead class="w-[100px]">Name</TableHead>
+          <TableHead>Name</TableHead>
           <TableHead>Status</TableHead>
           <TableHead>Image</TableHead>
           <TableHead>Ports</TableHead>
