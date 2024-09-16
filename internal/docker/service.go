@@ -28,7 +28,9 @@ func (d *DockerService) GetContainers(ctx context.Context, uri string) ([]types.
 		return nil, err
 	}
 
-	return cli.ContainerList(ctx, container.ListOptions{})
+	return cli.ContainerList(ctx, container.ListOptions{
+		All: true,
+	})
 }
 
 func (d *DockerService) GetSystemInformation(ctx context.Context, uri string) (*system.Info, error) {
