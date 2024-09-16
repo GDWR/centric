@@ -61,7 +61,7 @@ const globalLinks: LinkProp[] = [
           </div>
           <Nav :is-collapsed="isCollapsed" :links="environmentLinks"/>
           <Separator />
-          <Nav class="" :is-collapsed="isCollapsed" :links="globalLinks"/>
+          <Nav :is-collapsed="isCollapsed" :links="globalLinks"/>
         </ResizablePanel>
 
         <ResizableHandle />

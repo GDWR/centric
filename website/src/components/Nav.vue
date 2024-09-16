@@ -31,10 +31,10 @@ const route = useRoute()
       <template v-for="(link, index) of links">
         <Tooltip v-if="isCollapsed" :key="`1-${index}`" :delay-duration="0">
           <TooltipTrigger as-child>
-            <a
-              href="#"
+            <RouterLink
+              :to="link.path"
               :class="cn(
-                buttonVariants({ variant: link.path == route.path, size: 'icon' }),
+                buttonVariants({ variant: link.path === route.path ? 'default' : 'ghost', size: 'icon' }),
                 'h-9 w-9',
                 link.path === route.path
                   && 'dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white',
@@ -42,7 +42,7 @@ const route = useRoute()
             >
               <Icon :icon="link.icon" class="size-4" />
               <span class="sr-only">{{ link.title }}</span>
-            </a>
+            </RouterLink>
           </TooltipTrigger>
           <TooltipContent side="right" class="flex items-center gap-4">
             {{ link.title }}
