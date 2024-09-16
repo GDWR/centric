@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 
 import InitialSetup from "@/views/InitialSetup.vue";
 import Dashboard from "./views/Dashboard.vue";
+import Containers from "./views/Containers.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -9,6 +10,7 @@ const router = createRouter({
     { path: "/", redirect: "/dashboard" },
     { path: "/initial-setup", component: InitialSetup, },
     { path: "/dashboard", component: Dashboard },
+    { path: "/containers", component: Containers },
   ],
 });
 
