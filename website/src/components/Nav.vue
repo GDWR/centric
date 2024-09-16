@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { useRoute, RouterLink } from 'vue-router'
 import { Icon } from '@iconify/vue'
 import { cn } from '@/lib/utils'
 import { buttonVariants } from '@/components/ui/button'
@@ -10,9 +11,9 @@ import {
 
 export interface LinkProp {
   title: string
+  path: string
   label?: string
   icon: string
-  variant: 'default' | 'ghost'
 }
 
 interface NavProps {
@@ -21,13 +22,11 @@ interface NavProps {
 }
 
 defineProps<NavProps>()
+const route = useRoute()
 </script>
 
 <template>
-  <div
-    :data-collapsed="isCollapsed"
-    class="group flex flex-col gap-4 py-2 data-[collapsed=true]:py-2"
-  >
+  <div :data-collapsed="isCollapsed" class="group flex flex-col gap-4 py-2 data-[collapsed=true]:py-2">
     <nav class="grid gap-1 px-2 group-[[data-collapsed=true]]:justify-center group-[[data-collapsed=true]]:px-2">
       <template v-for="(link, index) of links">
         <Tooltip v-if="isCollapsed" :key="`1-${index}`" :delay-duration="0">
@@ -35,9 +34,9 @@ defineProps<NavProps>()
             <a
               href="#"
               :class="cn(
-                buttonVariants({ variant: link.variant, size: 'icon' }),
+                buttonVariants({ variant: link.path == route.path, size: 'icon' }),
                 'h-9 w-9',
-                link.variant === 'default'
+                link.path === route.path
                   && 'dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white',
               )"
             >
@@ -53,30 +52,31 @@ defineProps<NavProps>()
           </TooltipContent>
         </Tooltip>
 
-        <a
+        <RouterLink
           v-else
           :key="`2-${index}`"
-          href="#"
+          :to="link.path"
           :class="cn(
-            buttonVariants({ variant: link.variant, size: 'sm' }),
-            link.variant === 'default'
+            buttonVariants({ variant: link.path === route.path ? 'default' : 'ghost', size: 'sm' }),
+            link.path === route.path
               && 'dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white',
             'justify-start',
           )"
         >
+
           <Icon :icon="link.icon" class="mr-2 size-4" />
           {{ link.title }}
           <span
             v-if="link.label"
             :class="cn(
               'ml-auto',
-              link.variant === 'default'
+              link.path === route.path
                 && 'text-background dark:text-white',
             )"
           >
             {{ link.label }}
           </span>
-        </a>
+        </RouterLink>
       </template>
     </nav>
   </div>

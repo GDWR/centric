@@ -12,35 +12,28 @@ const isCollapsed = ref(false)
 const environmentLinks: LinkProp[] = [
   {
     title: 'Dashboard',
+    path: '/dashboard',
     icon: 'lucide:gauge',
-    variant: 'default',
   },
   {
     title: 'Containers',
+    path: '/containers',
     icon: 'lucide:container',
-    variant: 'ghost',
-  },
-  {
-    title: 'Stacks',
-    icon: 'lucide:layers',
-    variant: 'ghost',
   },
   {
     title: 'Images',
-    label: '',
+    path: '/images',
     icon: 'lucide:file-image',
-    variant: 'ghost',
   },
   {
     title: 'Volumes',
+    path: '/volumes',
     icon: 'lucide:hard-drive',
-    variant: 'ghost',
   },
   {
     title: 'Networks',
-    label: '',
+    path: '/networks',
     icon: 'lucide:network',
-    variant: 'ghost',
   },
 ]
 
@@ -48,12 +41,10 @@ const globalLinks: LinkProp[] = [
   {
     title: 'Settings',
     icon: 'lucide:settings',
-    variant: 'ghost',
   },
   {
     title: 'Documentation',
     icon: 'lucide:book-open-text',
-    variant: 'ghost',
   },
 ]
 </script>
