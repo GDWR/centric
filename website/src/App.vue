@@ -20,7 +20,7 @@ const environmentLinks: LinkProp[] = [
   {
     title: 'Containers',
     path: '/containers',
-    label: computed(() => containersStore.count),
+    label: computed(() => containersStore.count <= 99 ? containersStore.count : '99+'),
     icon: 'lucide:container',
   },
   {

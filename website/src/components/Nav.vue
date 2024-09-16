@@ -69,7 +69,7 @@ const route = useRoute()
           <span
             v-if="link.label"
             :class="cn(
-              'ml-auto',
+              'pl-2 ml-auto',
               link.path === route.path
                 && 'text-background dark:text-white',
             )"
