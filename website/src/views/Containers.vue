@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { format, fromUnixTime } from 'date-fns'
 import { Badge } from '@/components/ui/badge'
 import {
   Table,
@@ -44,7 +45,7 @@ const containers = await fetch(`/api/v1/environments/${selectedEnvironmentId}/co
           </TableCell>
           <TableCell>{{ container.Image }}</TableCell>
           <TableCell>{{ container.Ports }}</TableCell>
-          <TableCell class="text-right">{{ container.Created }}</TableCell>
+          <TableCell class="text-right">{{ format(fromUnixTime(container.Created), "yyyy-MM-dd'T'HH:mm:ss.SSSxxx") }}</TableCell>
         </TableRow>
       </TableBody>
     </Table>
