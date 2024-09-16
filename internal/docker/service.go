@@ -22,8 +22,13 @@ func NewDockerService() (*DockerService, error) {
 	return &DockerService{cli: cli}, nil
 }
 
-func (d *DockerService) GetContainers() ([]types.Container, error) {
-	return d.cli.ContainerList(context.Background(), container.ListOptions{})
+func (d *DockerService) GetContainers(ctx context.Context, uri string) ([]types.Container, error) {
+	cli, err := client.NewClientWithOpts(client.WithHost(uri), client.WithAPIVersionNegotiation())
+	if err != nil {
+		return nil, err
+	}
+
+	return cli.ContainerList(ctx, container.ListOptions{})
 }
 
 func (d *DockerService) GetSystemInformation(ctx context.Context, uri string) (*system.Info, error) {
