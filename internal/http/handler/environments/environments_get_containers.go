@@ -19,22 +19,22 @@ func (h Handler) environmentsGetContainers(writer http.ResponseWriter, request *
 	if err != nil {
 		log.Error().Err(err).Msg("failed to get environment")
 		writer.WriteHeader(http.StatusInternalServerError)
-		writer.Write([]byte(`{"error": "failed to get environment"}`))
+		writer.Write([]byte(`{"error": "failed to get containers"}`))
 		return
 	}
 
 	systemInfo, err := h.dockerService.GetContainers(request.Context(), environment.Uri)
 	if err != nil {
-		log.Error().Err(err).Msg("failed to get system information")
+		log.Error().Err(err).Msg("failed to get containers")
 		return
 	}
 
 	writer.WriteHeader(http.StatusOK)
 	writer.Header().Set("Content-Type", "application/json")
 	if err := json.NewEncoder(writer).Encode(systemInfo); err != nil {
-		log.Error().Err(err).Msg("failed to encode system information")
+		log.Error().Err(err).Msg("failed to encode containers")
 		writer.WriteHeader(http.StatusInternalServerError)
-		writer.Write([]byte(`{"error": "failed to encode system information"}`))
+		writer.Write([]byte(`{"error": "failed to encode containers"}`))
 		return
 	}
 }
