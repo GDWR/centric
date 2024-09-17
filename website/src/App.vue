@@ -8,9 +8,11 @@ import { TooltipProvider } from '@/components/ui/tooltip'
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable'
 import { useContainersStore } from '@/stores/containers'
 import { useImagesStore } from '@/stores/images'
+import { useVolumesStore } from '@/stores/volumes'
 
 const containersStore = useContainersStore()
 const imagesStore = useImagesStore()
+const volumesStore = useVolumesStore()
 const isCollapsed = ref(false)
 
 const environmentLinks: LinkProp[] = [
@@ -34,6 +36,7 @@ const environmentLinks: LinkProp[] = [
   {
     title: 'Volumes',
     path: '/volumes',
+    label: computed(() => volumesStore.count <= 99 ? volumesStore.count : '99+'),
     icon: 'lucide:hard-drive',
   },
   {
