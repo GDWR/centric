@@ -7,6 +7,7 @@ import (
 	"github.com/docker/docker/api/types/container"
 	"github.com/docker/docker/api/types/image"
 	"github.com/docker/docker/api/types/system"
+	"github.com/docker/docker/api/types/volume"
 	"github.com/docker/docker/client"
 )
 
@@ -43,6 +44,20 @@ func (d *DockerService) GetImages(ctx context.Context, uri string) ([]image.Summ
 	return cli.ImageList(ctx, image.ListOptions{
 		All: true,
 	})
+}
+
+func (d *DockerService) GetVolumes(ctx context.Context, uri string) ([]*volume.Volume, error) {
+	cli, err := client.NewClientWithOpts(client.WithHost(uri), client.WithAPIVersionNegotiation())
+	if err != nil {
+		return nil, err
+	}
+
+	volumeList, err := cli.VolumeList(ctx, volume.ListOptions{})
+	if err != nil {
+		return nil, err
+	}
+
+	return volumeList.Volumes, nil
 }
 
 func (d *DockerService) GetSystemInformation(ctx context.Context, uri string) (*system.Info, error) {
