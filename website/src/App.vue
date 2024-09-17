@@ -8,10 +8,12 @@ import { TooltipProvider } from '@/components/ui/tooltip'
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable'
 import { useContainersStore } from '@/stores/containers'
 import { useImagesStore } from '@/stores/images'
+import { useNetworksStore } from '@/stores/networks'
 import { useVolumesStore } from '@/stores/volumes'
 
 const containersStore = useContainersStore()
 const imagesStore = useImagesStore()
+const networksStore = useNetworksStore()
 const volumesStore = useVolumesStore()
 const isCollapsed = ref(false)
 
@@ -42,6 +44,7 @@ const environmentLinks: LinkProp[] = [
   {
     title: 'Networks',
     path: '/networks',
+    label: computed(() => networksStore.count <= 99 ? networksStore.count : '99+'),
     icon: 'lucide:network',
   },
 ]
