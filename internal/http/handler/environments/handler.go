@@ -26,6 +26,8 @@ func (h Handler) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
 		h.environmentsGetContainers(writer, request)
 	case "GET /api/v1/environments/{id}/images":
 		h.environmentsGetImages(writer, request)
+	case "GET /api/v1/environments/{id}/networks":
+		h.environmentsGetNetworks(writer, request)
 	case "GET /api/v1/environments/{id}/volumes":
 		h.environmentsGetVolumes(writer, request)
 	}

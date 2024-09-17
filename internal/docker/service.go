@@ -6,6 +6,7 @@ import (
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/container"
 	"github.com/docker/docker/api/types/image"
+	"github.com/docker/docker/api/types/network"
 	"github.com/docker/docker/api/types/system"
 	"github.com/docker/docker/api/types/volume"
 	"github.com/docker/docker/client"
@@ -68,4 +69,13 @@ func (d *DockerService) GetSystemInformation(ctx context.Context, uri string) (*
 
 	info, err := cli.Info(ctx)
 	return &info, err
+}
+
+func (d *DockerService) GetNetworks(ctx context.Context, uri string) ([]network.Inspect, error) {
+	cli, err := client.NewClientWithOpts(client.WithHost(uri), client.WithAPIVersionNegotiation())
+	if err != nil {
+		return nil, err
+	}
+
+	return cli.NetworkList(ctx, network.ListOptions{})
 }
