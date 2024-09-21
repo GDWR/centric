@@ -59,16 +59,6 @@ const isCollapsed = ref(false)
               label: computed(() => formatNumber(networksStore.count, 99)),
               icon: 'lucide:network',
             },
-            {
-              title: 'Configs',
-              path: '/configs',
-              icon: 'lucide:file-cog',
-            },
-            {
-              title: 'Secrets',
-              path: '/secrets',
-              icon: 'lucide:lock',
-            },
           ]"/>
           <Separator />
           <Nav :is-collapsed="isCollapsed" :links="[
@@ -86,6 +76,16 @@ const isCollapsed = ref(false)
               title: 'Stacks',
               path: '/stacks',
               icon: 'lucide:layers',
+            },
+            {
+              title: 'Configs',
+              path: '/configs',
+              icon: 'lucide:file-cog',
+            },
+            {
+              title: 'Secrets',
+              path: '/secrets',
+              icon: 'lucide:lock',
             },
           ]"/>
           <Separator />
