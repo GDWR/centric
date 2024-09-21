@@ -8,11 +8,12 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
+import type { Ref } from 'vue'
 
 export interface LinkProp {
   title: string
   path: string
-  label?: string
+  label?: string | Ref<string>
   icon: string
 }
 

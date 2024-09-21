@@ -10,55 +10,13 @@ import { useContainersStore } from '@/stores/containers'
 import { useImagesStore } from '@/stores/images'
 import { useNetworksStore } from '@/stores/networks'
 import { useVolumesStore } from '@/stores/volumes'
+import { formatNumber } from './lib/format'
 
 const containersStore = useContainersStore()
 const imagesStore = useImagesStore()
 const networksStore = useNetworksStore()
 const volumesStore = useVolumesStore()
 const isCollapsed = ref(false)
-
-const environmentLinks: LinkProp[] = [
-  {
-    title: 'Dashboard',
-    path: '/dashboard',
-    icon: 'lucide:gauge',
-  },
-  {
-    title: 'Containers',
-    path: '/containers',
-    label: computed(() => containersStore.count <= 99 ? containersStore.count : '99+'),
-    icon: 'lucide:container',
-  },
-  {
-    title: 'Images',
-    path: '/images',
-    label: computed(() => imagesStore.count <= 99 ? imagesStore.count : '99+'),
-    icon: 'lucide:file-image',
-  },
-  {
-    title: 'Volumes',
-    path: '/volumes',
-    label: computed(() => volumesStore.count <= 99 ? volumesStore.count : '99+'),
-    icon: 'lucide:hard-drive',
-  },
-  {
-    title: 'Networks',
-    path: '/networks',
-    label: computed(() => networksStore.count <= 99 ? networksStore.count : '99+'),
-    icon: 'lucide:network',
-  },
-]
-
-const globalLinks: LinkProp[] = [
-  {
-    title: 'Settings',
-    icon: 'lucide:settings',
-  },
-  {
-    title: 'Documentation',
-    icon: 'lucide:book-open-text',
-  },
-]
 </script>
 
 <template>
@@ -71,9 +29,78 @@ const globalLinks: LinkProp[] = [
           <div :class="cn('flex h-[52px] items-center justify-center', isCollapsed ? 'h-[52px]' : 'px-2')">
             <EnvironmentSwitcher :is-collapsed="isCollapsed"  />
           </div>
-          <Nav :is-collapsed="isCollapsed" :links="environmentLinks"/>
+          <Nav :is-collapsed="isCollapsed" :links="[
+            {
+              title: 'Dashboard',
+              path: '/dashboard',
+              icon: 'lucide:gauge',
+            },
+            {
+              title: 'Containers',
+              path: '/containers',
+              label: computed(() => formatNumber(containersStore.count, 99)),
+              icon: 'lucide:container',
+            },
+            {
+              title: 'Images',
+              path: '/images',
+              label: computed(() => formatNumber(imagesStore.count, 99)),
+              icon: 'lucide:file-box',
+            },
+            {
+              title: 'Volumes',
+              path: '/volumes',
+              label: computed(() => formatNumber(volumesStore.count, 99)),
+              icon: 'lucide:hard-drive',
+            },
+            {
+              title: 'Networks',
+              path: '/networks',
+              label: computed(() => formatNumber(networksStore.count, 99)),
+              icon: 'lucide:network',
+            },
+            {
+              title: 'Configs',
+              path: '/configs',
+              icon: 'lucide:file-cog',
+            },
+            {
+              title: 'Secrets',
+              path: '/secrets',
+              icon: 'lucide:lock',
+            },
+          ]"/>
           <Separator />
-          <Nav :is-collapsed="isCollapsed" :links="globalLinks"/>
+          <Nav :is-collapsed="isCollapsed" :links="[
+            {
+              title: 'Swarm',
+              path: '/swarm',
+              icon: 'lucide:cloud',
+            },
+            {
+              title: 'Services',
+              path: '/services',
+              icon: 'lucide:shield-ellipsis',
+            },
+            {
+              title: 'Stacks',
+              path: '/stacks',
+              icon: 'lucide:layers',
+            },
+          ]"/>
+          <Separator />
+          <Nav :is-collapsed="isCollapsed" :links="[
+            {
+              title: 'Settings',
+              path: '/settings',
+              icon: 'lucide:settings',
+            },
+            {
+              title: 'Documentation',
+              path: '/documentation',
+              icon: 'lucide:book-open-text',
+            },
+          ]"/>
         </ResizablePanel>
 
         <ResizableHandle />

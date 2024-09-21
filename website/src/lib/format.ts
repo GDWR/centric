@@ -9,3 +9,7 @@ export function formatBytes(bytes: number, decimals: number = 2): string {
     const i = Math.floor(Math.log(bytes) / Math.log(k));
     return parseFloat((bytes / Math.pow(k, i)).toFixed(decimals)) + ' ' + sizes[i];
 }
+
+export function formatNumber(n: number, max: number): string {
+    return n > max ? `${max}+` : n.toString();
+}
