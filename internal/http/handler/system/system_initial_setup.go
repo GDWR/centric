@@ -53,7 +53,7 @@ func (h Handler) systemInitialSetup(writer http.ResponseWriter, request *http.Re
 		return
 	}
 
-	user, err := h.userService.CreateUser(data.AdminAccount.Username, data.AdminAccount.Password)
+	user, err := h.userService.CreateUser(request.Context(), data.AdminAccount.Username, data.AdminAccount.Password)
 	if err != nil {
 		response.InternalServerError(err, "Unable to create user", writer)
 		return
