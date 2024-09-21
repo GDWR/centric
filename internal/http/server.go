@@ -8,6 +8,7 @@ import (
 	"github.com/gdwr/centric/internal/docker"
 	"github.com/gdwr/centric/internal/http/handler/environments"
 	"github.com/gdwr/centric/internal/http/handler/system"
+	"github.com/gdwr/centric/internal/http/middleware"
 	"github.com/gdwr/centric/internal/user"
 )
 
@@ -19,7 +20,9 @@ type Server struct {
 }
 
 func (s *Server) Run() error {
-	environmentsHandler := environments.NewHandler(s.DatabaseService, s.DockerService)
+	middleware := middleware.LoggerMiddleware()
+
+	environmentsHandler := middleware(environments.NewHandler(s.DatabaseService, s.DockerService))
 	http.Handle("GET /api/v1/environments", environmentsHandler)
 	http.Handle("GET /api/v1/environments/{id}", environmentsHandler)
 	http.Handle("GET /api/v1/environments/{id}/configs", environmentsHandler)
@@ -29,7 +32,7 @@ func (s *Server) Run() error {
 	http.Handle("GET /api/v1/environments/{id}/system-information", environmentsHandler)
 	http.Handle("GET /api/v1/environments/{id}/volumes", environmentsHandler)
 
-	systemHandler := system.NewHandler(s.DatabaseService, s.UserService)
+	systemHandler := middleware(system.NewHandler(s.DatabaseService, s.UserService))
 	http.Handle("GET /api/v1/system", systemHandler)
 	http.Handle("POST /api/v1/system/initial-setup", systemHandler)
 
