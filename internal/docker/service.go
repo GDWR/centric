@@ -7,6 +7,7 @@ import (
 	"github.com/docker/docker/api/types/container"
 	"github.com/docker/docker/api/types/image"
 	"github.com/docker/docker/api/types/network"
+	"github.com/docker/docker/api/types/swarm"
 	"github.com/docker/docker/api/types/system"
 	"github.com/docker/docker/api/types/volume"
 	"github.com/docker/docker/client"
@@ -23,6 +24,15 @@ func NewDockerService() (*DockerService, error) {
 	}
 
 	return &DockerService{cli: cli}, nil
+}
+
+func (d *DockerService) GetConfigs(ctx context.Context, uri string) ([]swarm.Config, error) {
+	cli, err := client.NewClientWithOpts(client.WithHost(uri), client.WithAPIVersionNegotiation())
+	if err != nil {
+		return nil, err
+	}
+
+	return cli.ConfigList(ctx, types.ConfigListOptions{})
 }
 
 func (d *DockerService) GetContainers(ctx context.Context, uri string) ([]types.Container, error) {

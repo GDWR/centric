@@ -22,6 +22,8 @@ func (h Handler) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
 		h.environmentsGet(writer, request)
 	case "GET /api/v1/environments/{id}":
 		h.environmentsGetInfo(writer, request)
+	case "GET /api/v1/environments/{id}/configs":
+		h.environmentsGetConfigs(writer, request)
 	case "GET /api/v1/environments/{id}/containers":
 		h.environmentsGetContainers(writer, request)
 	case "GET /api/v1/environments/{id}/images":
