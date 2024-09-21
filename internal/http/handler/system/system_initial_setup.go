@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/gdwr/centric/internal/database"
+	"github.com/gdwr/centric/internal/http/response"
 	"github.com/google/uuid"
 )
 
@@ -38,28 +39,28 @@ var possibleIcons = []string{
 func (h Handler) systemInitialSetup(writer http.ResponseWriter, request *http.Request) {
 	initialSetupComplete, err := h.databaseService.InitialSetupComplete(request.Context())
 	if err != nil {
-		http.Error(writer, err.Error(), http.StatusInternalServerError)
+		response.InternalServerError(err, "Unable to retrieve initial setup status", writer)
 		return
 	}
 	if initialSetupComplete {
-		http.Error(writer, "Initial setup already completed", http.StatusBadRequest)
+		response.BadRequest("Initial setup already completed", writer)
 		return
 	}
 
 	var data initialSetupSchema
 	if err := json.NewDecoder(request.Body).Decode(&data); err != nil {
-		http.Error(writer, err.Error(), http.StatusBadRequest)
+		response.BadRequest("Invalid request body", writer)
 		return
 	}
 
 	user, err := h.userService.CreateUser(data.AdminAccount.Username, data.AdminAccount.Password)
 	if err != nil {
-		http.Error(writer, err.Error(), http.StatusInternalServerError)
+		response.InternalServerError(err, "Unable to create user", writer)
 		return
 	}
 
 	if err = h.databaseService.InitialSetup(request.Context(), user.ID); err != nil {
-		http.Error(writer, err.Error(), http.StatusInternalServerError)
+		response.InternalServerError(err, "Unable to complete initial setup", writer)
 		return
 	}
 
@@ -70,11 +71,9 @@ func (h Handler) systemInitialSetup(writer http.ResponseWriter, request *http.Re
 		Icon: possibleIcons[rand.Intn(len(possibleIcons))],
 	})
 	if err != nil {
-		http.Error(writer, err.Error(), http.StatusInternalServerError)
+		response.InternalServerError(err, "Unable to create environment", writer)
 		return
 	}
 
-	writer.Header().Set("Content-Type", "application/json")
-	writer.WriteHeader(http.StatusOK)
-	json.NewEncoder(writer).Encode(data)
+	response.Json(data, writer)
 }

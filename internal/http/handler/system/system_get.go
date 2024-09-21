@@ -1,8 +1,9 @@
 package system
 
 import (
-	"encoding/json"
 	"net/http"
+
+	"github.com/gdwr/centric/internal/http/response"
 )
 
 type System struct {
@@ -12,15 +13,9 @@ type System struct {
 func (h Handler) systemGet(writer http.ResponseWriter, request *http.Request) {
 	initialSetupComplete, err := h.databaseService.InitialSetupComplete(request.Context())
 	if err != nil {
-		http.Error(writer, err.Error(), http.StatusInternalServerError)
+		response.InternalServerError(err, "Unable to retrieve system information", writer)
 		return
 	}
 
-	response := System{
-		SetupComplete: initialSetupComplete,
-	}
-
-	writer.Header().Set("Content-Type", "application/json")
-	writer.WriteHeader(http.StatusOK)
-	json.NewEncoder(writer).Encode(response)
+	response.Json(System{SetupComplete: initialSetupComplete}, writer)
 }

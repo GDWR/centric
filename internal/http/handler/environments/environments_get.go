@@ -1,29 +1,22 @@
 package environments
 
 import (
-	"encoding/json"
 	"net/http"
+
+	"github.com/gdwr/centric/internal/http/response"
 )
 
 func (h Handler) environmentsGet(writer http.ResponseWriter, request *http.Request) {
 	environments, err := h.databaseService.GetEnvironments(request.Context())
 	if err != nil {
-		http.Error(writer, err.Error(), http.StatusInternalServerError)
+		response.InternalServerError(err, "Unable to retrieve environments", writer)
 		return
 	}
 
 	if environments == nil {
-		writer.WriteHeader(http.StatusNoContent)
+		response.NotFound("No environments found", writer)
 		return
 	}
 
-	data, err := json.Marshal(environments)
-	if err != nil {
-		http.Error(writer, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	writer.WriteHeader(http.StatusOK)
-	writer.Header().Set("Content-Type", "application/json")
-	writer.Write(data)
+	response.Json(environments, writer)
 }
