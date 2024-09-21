@@ -6,7 +6,7 @@ import (
 	"github.com/gdwr/centric/internal/http/response"
 )
 
-func (h Handler) environmentsGet(writer http.ResponseWriter, request *http.Request) {
+func (h Handler) getEnvironments(writer http.ResponseWriter, request *http.Request) {
 	environments, err := h.databaseService.GetEnvironments(request.Context())
 	if err != nil {
 		response.InternalServerError(err, "Unable to retrieve environments", writer)

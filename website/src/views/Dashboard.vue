@@ -13,7 +13,7 @@ import { Button } from '@/components/ui/button'
 import { useEnvironmentStore } from '@/stores/environment'
 
 const { selectedEnvironmentId } = useEnvironmentStore()
-const environmentData = await fetch(`/api/v1/environments/${selectedEnvironmentId}`)
+const environmentData = await fetch(`/api/v1/environments/${selectedEnvironmentId}/system-information`)
   .then((res) => res.json());
 </script>
 

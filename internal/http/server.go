@@ -26,6 +26,7 @@ func (s *Server) Run() error {
 	http.Handle("GET /api/v1/environments/{id}/containers", environmentsHandler)
 	http.Handle("GET /api/v1/environments/{id}/images", environmentsHandler)
 	http.Handle("GET /api/v1/environments/{id}/networks", environmentsHandler)
+	http.Handle("GET /api/v1/environments/{id}/system-information", environmentsHandler)
 	http.Handle("GET /api/v1/environments/{id}/volumes", environmentsHandler)
 
 	systemHandler := system.NewHandler(s.DatabaseService, s.UserService)
