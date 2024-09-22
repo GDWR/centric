@@ -32,8 +32,8 @@ func init() {
 }
 
 func main() {
-	authService := auth.NewAuthService()
 	databaseService, err := database.NewDatabaseService()
+	authService := auth.NewAuthService(databaseService)
 	if err != nil {
 		log.Fatal().
 			Err(err).

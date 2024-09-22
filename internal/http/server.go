@@ -6,6 +6,8 @@ import (
 	"github.com/gdwr/centric/internal/auth"
 	"github.com/gdwr/centric/internal/database"
 	"github.com/gdwr/centric/internal/docker"
+
+	authHandler "github.com/gdwr/centric/internal/http/handler/auth"
 	"github.com/gdwr/centric/internal/http/handler/environments"
 	"github.com/gdwr/centric/internal/http/handler/system"
 	"github.com/gdwr/centric/internal/http/middleware"
@@ -22,6 +24,9 @@ type Server struct {
 func (s *Server) Run() error {
 	mux := http.NewServeMux()
 	middleware := middleware.LoggerMiddleware()
+
+	authHandler := middleware(authHandler.NewHandler(s.AuthService, s.DatabaseService))
+	mux.Handle("POST /api/v1/auth/login", authHandler)
 
 	environmentsHandler := middleware(environments.NewHandler(s.DatabaseService, s.DockerService))
 	mux.Handle("GET /api/v1/environments", environmentsHandler)

@@ -1,8 +1,9 @@
 package system
 
 import (
+	"crypto/rand"
 	"encoding/json"
-	"math/rand"
+	mathRand "math/rand"
 	"net/http"
 
 	"github.com/gdwr/centric/internal/database"
@@ -59,7 +60,16 @@ func (h Handler) systemInitialSetup(writer http.ResponseWriter, request *http.Re
 		return
 	}
 
-	if err = h.databaseService.InitialSetup(request.Context(), user.ID); err != nil {
+	secret := make([]byte, 256)
+	if _, err := rand.Read(secret); err != nil {
+		response.InternalServerError(err, "Unable to generate secret", writer)
+		return
+	}
+
+	if err = h.databaseService.InitialSetup(request.Context(), database.InitialSetupParams{
+		OwnerID:   user.ID,
+		JwtSecret: secret,
+	}); err != nil {
 		response.InternalServerError(err, "Unable to complete initial setup", writer)
 		return
 	}
@@ -68,7 +78,7 @@ func (h Handler) systemInitialSetup(writer http.ResponseWriter, request *http.Re
 		ID:   uuid.New().String(),
 		Name: data.Environment.Name,
 		Uri:  data.Environment.Uri,
-		Icon: possibleIcons[rand.Intn(len(possibleIcons))],
+		Icon: possibleIcons[mathRand.Intn(len(possibleIcons))],
 	})
 	if err != nil {
 		response.InternalServerError(err, "Unable to create environment", writer)
